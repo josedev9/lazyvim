@@ -8,12 +8,14 @@ vim.keymap.del("n", "<Space>fT")
 vim.keymap.del({ "n", "v" }, "<Space>cf")
 vim.keymap.del({ "n", "v" }, "<Space>cF")
 local map = LazyVim.safe_keymap_set
-local lazyterm = function()
-    LazyVim.terminal(nil, { cwd = LazyVim.root() })
-end
-map("n", "<C-\\>", lazyterm, { desc = "Open terminal" })
-map("t", "<C-\\>", "<cmd>close<cr>", { desc = "Close terminal" })
 -- formatting
 map({ "n", "v" }, "<Space>lf", function()
     LazyVim.format({ force = true })
 end, { desc = "Format" })
+
+vim.opt.colorcolumn = "80"
+vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = function()
+        vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#3a3a3a" })
+    end,
+})
